@@ -1,0 +1,38 @@
+{
+  "name": "todos_frontend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite --port 3000",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aleksandra4072/todos_frontend.git"
+  },
+  "keywords": [
+    "todos"
+  ],
+  "author": "AleksandraL",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aleksandra4072/todos_frontend/issues"
+  },
+  "homepage": "https://github.com/Aleksandra4072/todos_frontend#readme",
+  "description": "",
+  "dependencies": {
+    "@ant-design/icons": "^5.4.0",
+    "antd": "^5.19.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.25.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.7.0",
+    "eslint": "^9.7.0",
+    "eslint-plugin-react": "^7.35.0",
+    "globals": "^15.8.0"
+  }
+}

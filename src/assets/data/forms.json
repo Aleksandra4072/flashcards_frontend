@@ -1,0 +1,77 @@
+{
+  "login_form": [
+    {
+      "id": 1,
+      "name": "email",
+      "label": "Email",
+      "rules": [
+        {
+          "required": true,
+          "message": "This field is required"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "password",
+      "label": "Password",
+      "rules": [
+        {
+          "required": true,
+          "message": "This field is required"
+        }
+      ],
+      "inputType": "password"
+    }
+  ],
+
+  "signup_form": [
+    {
+      "id": 3,
+      "name": "email",
+      "label": "Email",
+      "rules": [
+        {
+          "required": true,
+          "message": "This field is required"
+        },
+        {
+          "type": "email",
+          "message": "Insert valid email"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "password",
+      "label": "Password",
+      "rules": [
+        {
+          "required": true,
+          "message": "This field is required"
+        },
+        {
+          "min": 8,
+          "message": "Password should contain at least 8 characters"
+        },
+        {
+          "pattern": "^(?=.*[a-z])",
+          "message": "Password must contain at least one lower-case letter"
+        },
+        {
+          "pattern": "^(?=.*[A-Z])",
+          "message": "Password must contain at least one upper-case letter"
+        },
+        {
+          "pattern": "^(?=.*[1-9])",
+          "message": "Password must contain at least one number"
+        },
+        {
+          "pattern": "^(?=.*[@$!%*?&])",
+          "message": "Password must contain at least one special symbol"
+        }
+      ],
+      "inputType": "password"
+    }
+  ]
+}
