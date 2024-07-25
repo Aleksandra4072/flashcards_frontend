@@ -1,0 +1,8 @@
+.globe_icon {
+    font-size: 25px;
+}
+.globe_icon:hover {
+    transform: scale(1.2);
+    transition: transform 0.2s, color 0.2s;
+    cursor: pointer;
+}

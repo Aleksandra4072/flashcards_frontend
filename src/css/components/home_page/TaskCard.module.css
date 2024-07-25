@@ -1,0 +1,19 @@
+.card{
+    height: 80px;
+    margin-bottom: 10px;
+    align-content: center;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.arrowsIcon{
+    margin-left: 15px;
+}
+.arrowsIcon:hover {
+    transform: scale(1.2);
+    transition: transform 0.2s, color 0.2s;
+    cursor: pointer;
+}

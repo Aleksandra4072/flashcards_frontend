@@ -1,0 +1,15 @@
+.header {
+    color: #6fb3b8;
+    background-color: #f6f6f2;
+    display: flex;
+    justify-content: space-between;
+}
+
+.home_icon{
+    font-size: 25px;
+}
+.home_icon:hover {
+    transform: scale(1.2);
+    transition: transform 0.2s, color 0.2s;
+    cursor: pointer;
+}

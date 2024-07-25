@@ -1,0 +1,33 @@
+.page {
+    color: #f6f6f2;
+    background-color: #6fb3b8;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rollback_icon {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    font-size: 25px;
+}
+.rollback_icon:hover {
+    transform: scale(1.2);
+    transition: transform 0.2s, color 0.2s;
+    cursor: pointer;
+}
+
+
+.home_icon {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    font-size: 25px;
+}
+.home_icon:hover {
+    transform: scale(1.2);
+    transition: transform 0.2s, color 0.2s;
+    cursor: pointer;
+}

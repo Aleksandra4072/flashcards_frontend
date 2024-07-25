@@ -1,0 +1,11 @@
+.page{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.taskBoard{
+    width: 90%;
+    background-color: #6fb3b8;
+    gap: 10px;
+}
