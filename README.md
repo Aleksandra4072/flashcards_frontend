@@ -8,7 +8,8 @@ npm run dev
 
 - To create a docker image use the next command:
 ```
-docker build -t your-image-name .
+docker build -t <image-name> .
+docker run -p 3000:3000 your-image-name
 ```
 
 ### About the project
