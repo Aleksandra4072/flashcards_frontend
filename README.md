@@ -1,12 +1,14 @@
-## Command 
+## Command
 
 - To run the application use the next commands (to test the application access the link: http:// localhost:3000):
+
 ```
 npm install
 npm run dev
 ```
 
 - To create a docker image use the next command:
+
 ```
 docker build -t <image-name> .
 docker run -p 3000:3000 your-image-name
@@ -25,7 +27,7 @@ docker run -p 3000:3000 your-image-name
 - useAuth: custom hook that supplies the context
 - useRefrshToken: custom hook, that refreshes the access token and ads it to the private axios request
 
-
 ## Docker:
+
 - Dockerfile: set of instructions for Docker image creation
-- .dockerignore: files that are not incuded into the container 
+- .dockerignore: files that are not incuded into the container
