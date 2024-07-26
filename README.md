@@ -1,8 +1,30 @@
-# React + Vite
+## Command 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- To run the application use the next commands (to test the application access the link: http:// localhost:3000):
+```
+npm install
+npm run dev
+```
 
-Currently, two official plugins are available:
+- To create a docker image use the next command:
+```
+docker build -t your-image-name .
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### About the project
+
+# Secure authentication + authorization:
+
+- Refresh token: stored in the httpOnly cookies
+- Access token: stored int the react context.
+
+# Custom Hooks
+
+- useAxiosPrivate: custom hook that adds Bearer token to the headers of requests
+- useAuth: custom hook that supplies the context
+- useRefrshToken: custom hook, that refreshes the access token and ads it to the private axios request
+
+
+## Docker:
+- Dockerfile: set of instructions for Docker image creation
+- .dockerignore: files that are not incuded into the container 

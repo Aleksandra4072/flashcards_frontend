@@ -1,15 +1,31 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Image, Button } from "antd";
+import { login, decodeToken } from "../../utils/auth";
 import FormInput from "../common/FormInput";
+import AuthContext from "../../context/AuthProvider";
 
 import loginAvatar from "../../assets/images/login_avatar.svg";
 import data from "../../assets/data/forms.json";
 import styles from "../../css/components/login_page/LoginForm.module.css";
 
 const LoginForm = () => {
+  const { setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
+
   const onFinish = async (values) => {
-    console.log("LoginForm values >>> ", values);
+    try {
+      const token = await login(values);
+      const response = await decodeToken(token.data.access_token);
+      setAuth({
+        email: response.data.token_payload.sub,
+        roles: response.data.token_payload.roles,
+        accessToken: token.data.access_token,
+      });
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

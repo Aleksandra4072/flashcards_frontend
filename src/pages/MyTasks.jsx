@@ -1,27 +1,23 @@
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useState, useEffect } from "react";
 import { Card } from "antd";
+import { get_all_tasks } from "../utils/tasks";
 import TaskCard from "../components/my_tasks/TaskCard";
 
 import styles from "../css/pages/Home.module.css";
 
-const initTasks = [
-  {
-    id: "1",
-    title: "Task#1",
-  },
-  {
-    id: "2",
-    title: "Task#1",
-  },
-  {
-    id: "3",
-    title: "Task#1",
-  },
-];
-
 const MyTasks = () => {
-  const [data, setData] = useState(initTasks);
+  const [data, setData] = useState([]);
+
+  const fetchTasks = async () => {
+    const response = await get_all_tasks();
+    console.log(response);
+    setData(response.data.tasks);
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;

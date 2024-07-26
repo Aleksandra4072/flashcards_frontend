@@ -1,12 +1,17 @@
 import useAuth from "../hooks/useAuth";
-import { refreshToken } from "../utils/auth.js";
+import { refreshToken, decodeToken } from "../utils/auth.js";
 
 const useRefreshToken = () => {
-  const { auth, setAuth } = useAuth();
+  const { setAuth } = useAuth();
   const refresh = async () => {
-    const token = await refreshToken(auth.accessToken);
+    const token = await refreshToken();
+    const response = await decodeToken(token.data.access_token);
     setAuth((prev) => {
-      return { ...prev, accessToken: token.data.access_token };
+      return {
+        ...prev,
+        roles: response.data.token_payload.roles,
+        accessToken: token.data.access_token,
+      };
     });
     return token.data.access_token;
   };

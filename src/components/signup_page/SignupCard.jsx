@@ -1,12 +1,17 @@
 import { Card, Form, Input, Button } from "antd";
 import FormInput from "../common/FormInput";
+import { signup } from "../../utils/auth";
 
 import data from "../../assets/data/forms.json";
 import styles from "../../css/components/signup_page/SignupCard.module.css";
 
 const SignupCard = () => {
   const onFinish = async (values) => {
-    console.log("Signed up");
+    const response = await signup({
+      email: values.email,
+      password: values.password,
+    });
+    console.log(response?.message);
   };
 
   return (
