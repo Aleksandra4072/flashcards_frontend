@@ -1,21 +1,26 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { MenuOutlined } from "@ant-design/icons";
 import { Drawer, Divider, Button } from "antd";
+import { logout } from "../../utils/auth";
+import AuthContext from "../../context/AuthProvider";
 
-import styles from '../../css/components/common/CustomMenu.module.css'
+import styles from "../../css/components/common/CustomMenu.module.css";
 
 const CustomMenu = () => {
+  const { auth, setAuth } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   const goTo = (path) => {
     navigate(path);
-    setOpen(false);
   };
 
   const logoutFunc = async () => {
-    console.log("Logout function");
+    const response = await logout();
+    setAuth({});
+    navigate("/login");
+    console.log(response);
   };
 
   return (
@@ -49,7 +54,7 @@ const CustomMenu = () => {
             width: "90px",
             color: " #f6f6f2",
           }}
-          onCLick={() => {
+          onClick={() => {
             navigate("/login");
           }}
         >
