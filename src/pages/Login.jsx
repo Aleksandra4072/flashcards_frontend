@@ -6,7 +6,7 @@ import LoginForm from '../components/login_page/LoginForm.jsx';
 import loginImg from '../assets/images/login.webp';
 import styles from '../css/pages/Login.module.css';
 
-const LoginPage = () => {
+const Login = () => {
   const navigate = useNavigate();
 
   return (
@@ -30,4 +30,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Login;
