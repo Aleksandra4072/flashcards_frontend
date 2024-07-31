@@ -1,6 +1,7 @@
-import { Card, Form, Input, Button } from "antd";
+import { Card, Form, Input } from "antd";
 import FormInput from "../common/FormInput";
 import { signup } from "../../utils/auth";
+import PrimaryButton from "../../components/common/PrimaryButton";
 
 import data from "../../assets/data/forms.json";
 import styles from "../../css/components/signup_page/SignupCard.module.css";
@@ -56,16 +57,7 @@ const SignupCard = () => {
           />
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button
-            htmlType="submit"
-            style={{
-              backgroundColor: "#6fb3b8",
-              width: "90px",
-              color: "#f6f6f2",
-            }}
-          >
-            Register
-          </Button>
+          <PrimaryButton label="Register" htmlType="submit" />
         </Form.Item>
       </Form>
     </Card>

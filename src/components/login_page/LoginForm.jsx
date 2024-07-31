@@ -1,13 +1,16 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Image, Button } from "antd";
+import { Form, Image, notification } from "antd";
 import { login, decodeToken } from "../../utils/auth";
 import FormInput from "../common/FormInput";
 import AuthContext from "../../context/AuthProvider";
+import PrimaryButton from "../../components/common/PrimaryButton";
+import LinkButton from "../../components/common/LinkButton";
 
 import loginAvatar from "../../assets/images/login_avatar.svg";
 import data from "../../assets/data/forms.json";
 import styles from "../../css/components/login_page/LoginForm.module.css";
+
 
 const LoginForm = () => {
   const { setAuth } = useContext(AuthContext);
@@ -23,8 +26,8 @@ const LoginForm = () => {
         accessToken: token.data.access_token,
       });
       navigate("/");
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e)
     }
   };
 
@@ -50,29 +53,15 @@ const LoginForm = () => {
           />
         ))}
         <Form.Item>
-          <Button
-            type="primary"
+          <PrimaryButton
             htmlType="submit"
-            style={{
-              width: "90px",
-              backgroundColor: "#6fb3b8",
-              color: "#f6f6f2",
-            }}
-          >
-            Login
-          </Button>
-          <Button
-            type="primary"
-            style={{
-              marginLeft: "120px",
-              width: "90px",
-              backgroundColor: "#6fb3b8",
-              color: "#f6f6f2",
-            }}
+            label="Login"
+            style={{ width: "100%" }}
+          />
+          <LinkButton
+            label="Create an account"
             onClick={() => navigate("/signup")}
-          >
-            Register
-          </Button>
+          />
         </Form.Item>
       </Form>
     </div>
