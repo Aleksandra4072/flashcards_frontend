@@ -22,11 +22,6 @@ const PersistLogin = () => {
     !auth.accessTokem ? verifyAsyncFunction() : setIsLoading(false);
   }, []);
 
-  useEffect(() => {
-    console.log(`isLoading >>> ${isLoading}`);
-    console.log(`at >>> ${JSON.stringify(auth?.accessToken)}`);
-  }, [isLoading]);
-
   return <>{isLoading ? <p>Loading</p> : <Outlet />}</>;
 };
 

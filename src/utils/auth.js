@@ -19,7 +19,7 @@ export const login = async (params) => {
   try {
     return await axios.post("/auth/login", params);
   } catch (e) {
-    openNotificationWithIcon(e.response.data.detail)
+    openNotificationWithIcon(e.response.data.detail);
   }
 };
 

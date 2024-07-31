@@ -37,13 +37,6 @@ const CustomMenu = () => {
         >
           My page
         </Button>
-        <Button
-          style={{ color: "black" }}
-          type="link"
-          onClick={() => goTo("/my_tasks")}
-        >
-          Tasks
-        </Button>
         <Divider orientation="left">Admin</Divider>
         <p>Some content...</p>
         <Divider />

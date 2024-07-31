@@ -1,0 +1,11 @@
+.bundleCard {
+    width: 100%;
+    height: 120px;
+    margin-bottom: 15px;
+}
+
+.close:hover {
+    transform: scale(1.2);
+    transition: transform 0.2s, color 0.2s;
+    cursor: pointer;
+}

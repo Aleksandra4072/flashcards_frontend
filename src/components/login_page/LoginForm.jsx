@@ -17,18 +17,16 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const onFinish = async (values) => {
-    try {
-      const token = await login(values);
+    const token = await login(values);
+    if (token?.data?.access_token) {
       const response = await decodeToken(token.data.access_token);
       setAuth({
-        email: response.data.token_payload.sub,
+        email: response.data.token_payload.email,
         roles: response.data.token_payload.roles,
         accessToken: token.data.access_token,
       });
       navigate("/");
-    } catch (e) {
-      console.log(e)
-    }
+    }    
   };
 
   return (

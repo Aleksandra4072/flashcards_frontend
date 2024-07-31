@@ -1,22 +1,50 @@
-import { useContext } from "react";
-import AuthContext from "../context/AuthProvider.jsx";
-import useRefreshToken from "../hooks/useRefreshToken.js";
+import { useEffect, useState } from "react";
+import { notification } from "antd";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import BundleCard from "../components/common/BundleCard";
+
+import styles from "../css/pages/Home.module.css";
+
+const openNotification = (message, type) => {
+  notification[type]({
+    message,
+  });
+};
 
 const Home = () => {
-    const { auth } = useContext(AuthContext);
-    const refresh = useRefreshToken();
+  const axiosPrivate = useAxiosPrivate();
+  const [bundles, setBundles] = useState([]);
 
-    const testRefresh = async () => {
-        const response = await refresh();
-        console.log(response);
+  const fetchBundles = async () => {
+    try {
+      const result = await axiosPrivate.get("/bundle");
+      if (result?.data) {
+        setBundles(result.data.bundles);
+      } else {
+        openNotification("You do not have any bundles yet", "info");
+      }
+    } catch (e) {
+      openNotification(e.response.data.detail, "error");
     }
-    return (
-        <div>
-            <button onClick={() => {console.log(auth)}}>Show auth</button>
-            <button onClick={() => testRefresh()}>Test Refresh Token</button>
-        </div>
-    );
-    
-}
+  };
+
+  useEffect(() => {
+    fetchBundles();
+  }, []);
+
+  return (
+    <div className={styles.page}>
+      {bundles.map((bundle) => (
+        <BundleCard
+          key={bundle.id}
+          id={bundle.id}
+          title={bundle.title}
+          description={bundle.description}
+          fetchBundles={fetchBundles}
+        />
+      ))}
+    </div>
+  );
+};
 
 export default Home;
