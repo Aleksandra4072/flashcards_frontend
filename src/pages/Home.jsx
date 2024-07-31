@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { notification } from "antd";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import BundleCard from "../components/common/BundleCard";
+import AddBundleModal from "../components/common/AddBundleModal";
 
 import styles from "../css/pages/Home.module.css";
 
@@ -34,6 +35,10 @@ const Home = () => {
 
   return (
     <div className={styles.page}>
+      <div style={{margin: "20px", display: "flex", justifyContent: "flex-end"}}>
+        <AddBundleModal fetchBundles={fetchBundles} />
+      </div>
+
       {bundles.map((bundle) => (
         <BundleCard
           key={bundle.id}
