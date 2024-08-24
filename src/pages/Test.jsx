@@ -8,7 +8,7 @@ import "@fortune-sheet/react/dist/index.css";
 const Test = () => {
   const [filename, setFilename] = useState("excel.xlsx");
   const [sheetData, setSheetData] = useState([
-    { name: "s", celldata: [{ r: 0, c: 0, v: null }] },
+    { name: "s1", celldata: [{ r: 0, c: 0, v: null }] },
   ]);
 
   useEffect(() => {
@@ -22,24 +22,26 @@ const Test = () => {
           const data = new Uint8Array(e.target.result);
           const workbook = XLSX.read(data, { type: "array" });
 
-          console.log(workbook);
-
           const allSheetsData = workbook.SheetNames.map((sheetName) => {
             const worksheet = workbook.Sheets[sheetName];
 
-            console.log(worksheet);
-            const json = XLSX.utils.sheet_to_json(worksheet, {
-              header: 1,
-              raw: true,
-            });
+            const celldata = [];
+            const range = XLSX.utils.decode_range(worksheet['!ref']);
 
-            const celldata = json.flatMap((row, rowIndex) =>
-              row.map((cell, colIndex) => ({
-                r: rowIndex,
-                c: colIndex,
-                v: cell + "",
-              }))
-            );
+            for (let row = range.s.r; row <= range.e.r; row++) {
+              for (let col = range.s.c; col <= range.e.c; col++) {
+                const cellAddress = XLSX.utils.encode_cell({ r: row, c: col });
+                const cell = worksheet[cellAddress];
+
+                if (cell) {
+                  celldata.push({
+                    r: row,
+                    c: col,
+                    v: cell.w || cell.v || "", // Use 'w' if available, fallback to 'v' or empty string
+                  });
+                }
+              }
+            }
 
             return {
               name: sheetName,
@@ -53,11 +55,6 @@ const Test = () => {
         reader.readAsArrayBuffer(res.data);
       });
   }, []);
-
-  //   useEffect(() => {
-  //     console.log("Sheet have been initialized");
-  //     console.log(sheetData);
-  //   }, [sheetData]);
 
   return (
     <div style={{ width: "100%", height: "550px" }}>
