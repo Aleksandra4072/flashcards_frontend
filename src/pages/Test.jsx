@@ -22,36 +22,42 @@ const Test = () => {
           const data = new Uint8Array(e.target.result);
           const workbook = XLSX.read(data, { type: "array" });
 
+          console.log(workbook);
+
           const allSheetsData = workbook.SheetNames.map((sheetName) => {
             const worksheet = workbook.Sheets[sheetName];
-            const json = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: true });  
+
+            console.log(worksheet);
+            const json = XLSX.utils.sheet_to_json(worksheet, {
+              header: 1,
+              raw: true,
+            });
 
             const celldata = json.flatMap((row, rowIndex) =>
-                row.map((cell, colIndex) => ({
-                  r: rowIndex,
-                  c: colIndex,
-                  v: typeof cell === 'number' || cell ? cell : null, // Ensure numbers and other values are correctly assigned
-                }))
-              );
+              row.map((cell, colIndex) => ({
+                r: rowIndex,
+                c: colIndex,
+                v: cell + "",
+              }))
+            );
 
-              return {
-                name: sheetName,
-                celldata: celldata,
-              };
-            });
-    
+            return {
+              name: sheetName,
+              celldata: celldata,
+            };
+          });
 
-            setSheetData(allSheetsData); // Set all sheets data
+          setSheetData(allSheetsData); // Set all sheets data
         };
 
         reader.readAsArrayBuffer(res.data);
       });
   }, []);
 
-  useEffect(() => {
-    console.log("Sheet have been initialized");
-    console.log(sheetData);
-  }, [sheetData]);
+  //   useEffect(() => {
+  //     console.log("Sheet have been initialized");
+  //     console.log(sheetData);
+  //   }, [sheetData]);
 
   return (
     <div style={{ width: "100%", height: "550px" }}>
