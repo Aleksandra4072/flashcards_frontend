@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "../api/axios";
 import { Workbook } from "@fortune-sheet/react";
+import * as XLSX from "xlsx-js-style";
 import ExcelJS from "exceljs";
 
 import "@fortune-sheet/react/dist/index.css";
@@ -15,70 +16,98 @@ const Test = () => {
     axios
       .get(`/download_file/excel.xlsx`, { responseType: "blob" })
       .then(async (res) => {
-        const workbook = new ExcelJS.Workbook();
-        await workbook.xlsx.load(res.data);
-        const allSheetsData = workbook.worksheets.map((worksheet) => {
-          const celldata = [];
-          const borderInfo = [];
+        const excelJsWb = new ExcelJS.Workbook();
+        await excelJsWb.xlsx.load(res.data);
 
-          worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
-            row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
-              celldata.push({
-                r: rowNumber - 1,
-                c: colNumber - 1,
-                v: {
-                  v: cell.text,
-                  bl: cell.style.font?.bold,
-                  fs: cell.style.font?.size,
-                  bg: getBackgroundColor(cell) || "#ffffff",
-                },
-              });
-
-              borderInfo.push({
-                rangeType: "cell",
-                value: {
-                  row_index: rowNumber - 1,
-                  col_index: colNumber - 1,
-
-                  l: cell?.style?.border?.left
-                    ? {
-                        style: borderStyle(cell.style.border.left),
-                        color: "rgb(0, 0, 0)",
-                      }
-                    : undefined,
-                  r: cell?.style?.border?.right
-                    ? {
-                        style: borderStyle(cell.style.border.right),
-                        color: "rgb(0, 0, 0)",
-                      }
-                    : undefined,
-                  t: cell?.style?.border?.top
-                    ? {
-                        style: borderStyle(cell.style.border.top),
-                        color: "rgb(0, 0, 0)",
-                      }
-                    : undefined,
-                  b: cell?.style?.border?.bottom
-                    ? {
-                        style: borderStyle(cell.style.border.bottom),
-                        color: "rgb(0, 0, 0)",
-                      }
-                    : undefined,
-                },
-              });
-            });
-          });
-
-          return {
-            name: worksheet.name,
-            celldata: celldata,
-            config: {
-              borderInfo: borderInfo,
-            },
-          };
+        const excelJsSheets = {};
+        excelJsWb.eachSheet((worksheet, sheetId) => {
+          excelJsSheets[worksheet.name] = worksheet;
         });
 
-        setSheetData(allSheetsData);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const buffer = e.target.result;
+
+          const wb = XLSX.read(buffer, { type: "array", cellStyles: true });
+          const data = wb.SheetNames.map((sn) => {
+            const ws = wb.Sheets[sn];
+            const celldata = [];
+            const borderInfo = [];
+            const range = XLSX.utils.decode_range(ws["!ref"]);
+
+            for (let row = range.s.r; row <= range.e.r; row++) {
+              for (let col = range.s.c; col <= range.e.c; col++) {
+                const cellAddress = XLSX.utils.encode_cell({ r: row, c: col });
+                const cell = ws[cellAddress];
+
+                if (cell) {
+                  const excelJsWs = excelJsSheets[sn];
+                  const excelJsCell = excelJsWs.getCell(row + 1, col + 1);
+                  const excelJsStyle = excelJsCell.style || {};
+                  celldata.push({
+                    r: row,
+                    c: col,
+                    v: {
+                      v: cell.w || cell.v || "",
+                      bg: `#${cell?.s?.fgColor?.rgb}` || "#FFFFFF",
+                      bl: excelJsStyle?.font?.bold,
+                      fs: excelJsStyle?.font?.size,
+                    },
+                  });
+
+                  borderInfo.push({
+                    rangeType: "cell",
+                    value: {
+                      row_index: row,
+                      col_index: col,
+                      l: excelJsStyle?.border?.left?.style
+                        ? {
+                            style: borderStyle(
+                              excelJsStyle?.border?.left?.style
+                            ),
+                            color: "rgb(0, 0, 0)",
+                          }
+                        : undefined,
+                      r: excelJsStyle?.border?.right?.style
+                        ? {
+                            style: borderStyle(
+                              excelJsStyle?.border?.right?.style
+                            ),
+                            color: "rgb(0, 0, 0)",
+                          }
+                        : undefined,
+                      t: excelJsStyle?.border?.top?.style
+                        ? {
+                            style: borderStyle(
+                              excelJsStyle?.border?.top?.style
+                            ),
+                            color: "rgb(0, 0, 0)",
+                          }
+                        : undefined,
+                      b: excelJsStyle?.border?.bottom?.style
+                        ? {
+                            style: borderStyle(
+                              excelJsStyle?.border?.bottom?.style
+                            ),
+                            color: "rgb(0, 0, 0)",
+                          }
+                        : undefined,
+                    },
+                  });
+                }
+              }
+            }
+            return {
+              name: sn,
+              celldata: celldata,
+              config: {
+                borderInfo: borderInfo,
+              },
+            };
+          });
+          setSheetData(data);
+        };
+        reader.readAsArrayBuffer(res.data);
       });
   }, []);
 
@@ -87,30 +116,22 @@ const Test = () => {
       case "thin":
         return 1;
       case "medium":
-        return 2;
+        return 8;
       case "thick":
-        return 3;
+        return 13;
       default:
         return 0;
     }
   };
 
-  const getBackgroundColor = (cell) => {
-    if (cell.fill && cell.fill.fgColor && cell.fill.fgColor.argb) {
-      const argb = cell.fill.fgColor.argb;
-      return `#${argb.substring(2)}`; // Convert ARGB to RGB hex
-    }
-    return null;
-  };
-
   useEffect(() => {
     // Function to get the value from the div
     const getSelectedRange = () => {
-      const nameBox = document.querySelector('.fortune-name-box');
+      const nameBox = document.querySelector(".fortune-name-box");
       if (nameBox) {
         return nameBox.textContent;
       }
-      return '';
+      return "";
     };
 
     // Initial check
@@ -119,7 +140,10 @@ const Test = () => {
     // Set up a MutationObserver to watch for changes
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
-        if (mutation.type === 'childList' || mutation.type === 'characterData') {
+        if (
+          mutation.type === "childList" ||
+          mutation.type === "characterData"
+        ) {
           setSelectedRange(getSelectedRange());
         }
       });
@@ -129,7 +153,7 @@ const Test = () => {
     observer.observe(document.body, {
       childList: true,
       subtree: true,
-      characterData: true
+      characterData: true,
     });
 
     // Cleanup function to disconnect the observer when the component unmounts
@@ -144,7 +168,6 @@ const Test = () => {
         data={sheetData}
         showToolbar={false}
         allowEdit={false}
-        onChange={(luckysheet) => console.log("selection was chnged")}
       />
     </div>
   );

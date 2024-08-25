@@ -1,3 +1,6 @@
+https://www.npmjs.com/package/xlsx-js-style
+https://www.npmjs.com/package/exceljs
+
 ## Command
 
 - To run the application use the next commands (to test the application access the link: http:// localhost:3000):
