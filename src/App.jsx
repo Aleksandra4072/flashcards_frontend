@@ -7,8 +7,6 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Test from "./pages/Test";
 
-
-
 const App = () => {
   return (
     <Routes>
