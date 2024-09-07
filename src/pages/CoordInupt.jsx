@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 
 import { Button, TextField } from "@mui/material";
 import { Dialog, DialogContent, DialogActions, DialogTitle } from "@mui/material";
