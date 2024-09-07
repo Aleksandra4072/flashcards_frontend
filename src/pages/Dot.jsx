@@ -9,7 +9,6 @@ const Dot = () => {
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState("");
   const [coord, setCoord] = useState({ left: "", top: "" });
-  const [rect, setRect] = useState(null);
   const imageRef = useRef(null);
 
   const inputFields = [
@@ -25,10 +24,20 @@ const Dot = () => {
   const handleClick = (e) => {
     if (imageRef.current) {
       const rect = imageRef.current.getBoundingClientRect();
-      const left = Math.round(e.clientX - rect.left);
-      const top = Math.round(e.clientY - rect.top);
-      setCoord({ left, top });
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      // Convert screen coordinates to image coordinates
+      const img = imageRef.current;
+      const scaleX = img.naturalWidth / img.width;
+      const scaleY = img.naturalHeight / img.height;
+
+      const left = Math.round(x * scaleX);
+      const top = Math.round(y * scaleY);
+
+      setCoord({ left: Math.max(0, left), top });
     }
+    console.log(coord);
   };
 
   return (
@@ -49,7 +58,7 @@ const Dot = () => {
               <img
                 ref={imageRef}
                 src={URL.createObjectURL(file)}
-                style={{ maxWidth: "100%", cursor: "crosshair" }}
+                style={{ maxWidth: "100%", display: "block", left: 0, top: 0, cursor: "crosshair" }}
                 onClick={handleClick}
               />
             )}
@@ -59,8 +68,7 @@ const Dot = () => {
           <Button
             onClick={() => {
               setOpen(false);
-              setCoord({ left: "", top: "", right: "", bottom: "" });
-              setRect(null);
+              setCoord({ left: "", top: "" });
             }}
           >
             Cancel

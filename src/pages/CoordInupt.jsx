@@ -69,7 +69,6 @@ const CoordInput = () => {
         bottom: top + Math.round(rect.height * scaleY),
       });
     }
-    console.log(coord);
   };
 
   return (
