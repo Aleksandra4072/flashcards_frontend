@@ -5,13 +5,15 @@ import RequireAuth from "./components/auth/RequireAuth";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Test from "./pages/Test";
+import SpreadSheet from "./pages/SpreadSheet";
+import CoordInput from "./pages/CoordInupt";
 
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<CustomLayout />}>
-        <Route path="/test" element={<Test />} />
+        <Route path="/coord_input" element={<CoordInput />} />
+        <Route path="/spread_sheet" element={<SpreadSheet />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route element={<PersistLogin />}>

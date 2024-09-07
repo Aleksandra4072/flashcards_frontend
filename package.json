@@ -24,8 +24,11 @@
   "description": "",
   "dependencies": {
     "@ant-design/icons": "^5.4.0",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@fortune-sheet/react": "^0.19.13",
     "@hello-pangea/dnd": "^16.6.0",
+    "@mui/material": "^6.0.2",
     "antd": "^5.19.3",
     "axios": "^1.7.2",
     "exceljs": "^4.4.0",
