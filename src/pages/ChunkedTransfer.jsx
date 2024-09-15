@@ -46,15 +46,13 @@ const ChunkedTransfer = () => {
             for (let col = range.s.c; col <= range.e.c; col++) {
               const cellAddress = XLSX.utils.encode_cell({ r: row, c: col });
               const cell = ws[cellAddress];
-
-              console.log(cell)
-
+              
               if (cell) {
                 const excelJsWs = excelJsSheets[sn];
                 const excelJsCell = excelJsWs.getCell(row + 1, col + 1);
                 const excelJsStyle = excelJsCell.style || {};
 
-                let cellValue = { v: cell.w !== "#VALUE!" ? (cell.w || cell.v || "") : "<Image>"};
+                let cellValue = { v: cell.t !== "e" ? (cell.w || cell.v || "") : "<Image>"};
 
                 celldata.push({
                   r: row,
