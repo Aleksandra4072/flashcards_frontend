@@ -9,6 +9,7 @@ import SpreadSheet from "./pages/SpreadSheet";
 import CoordInput from "./pages/CoordInupt";
 import Dot from "./pages/Dot";
 import ChunkedTransfer from "./pages/ChunkedTransfer";
+import ServersideChunks from "./pages/ServersideChunkes";
 
 const App = () => {
   return (
@@ -16,10 +17,11 @@ const App = () => {
       <Route path="/" element={<CustomLayout />}>
         <Route path="/dot" element={<Dot />} />
         <Route path="/coord" element={<CoordInput />} />
-        <Route path="/spread_sheet" element={<SpreadSheet />} />
-        <Route path="/spread_sheet_chunked" element={<ChunkedTransfer />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/spread_sheet" element={<SpreadSheet />} />
+        <Route path="/spread_sheet_chunked" element={<ChunkedTransfer />} />
+        <Route  path="/server_side" element={<ServersideChunks />} />
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth allowedRoles={["USER", "ADMIN"]} />}>
             <Route path="/" element={<Home />} />
