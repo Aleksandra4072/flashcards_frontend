@@ -71,6 +71,22 @@ const CoordInput = () => {
     }
   };
 
+  const cropImg = async () => {
+    try {
+      const response = await axios.post('/crop_image', {
+        filename: "random.jpg",
+        left: coord.left,
+        top: coord.top,
+        right: coord.right,
+        bottom: coord.bottom
+      });
+      console.log(response.data.new_filename);
+      setOpen(false)
+    } catch (error) {
+      console.error('Error cropping image:', error);
+    }
+  }
+
   return (
     <div>
       <Button variant="contained" onClick={() => openDialog()}>
@@ -122,7 +138,7 @@ const CoordInput = () => {
             setCoord({ left: "", top: "", right: "", bottom: "" });
             setRect(null);
             }}>Cancel</Button>
-          <Button variant="contained">Set</Button>
+          <Button variant="contained" onClick={cropImg}>Set</Button>
         </DialogActions>
       </Dialog>
     </div>
